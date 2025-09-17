@@ -19,6 +19,8 @@ int a=0;
 int b=0;
 int c=0;
 
+int bumpSensors[6];
+
 
 //=====================================================
 
@@ -34,6 +36,10 @@ void setup() {
 
 }
 
+
+void CommandMotors();
+void SendBumpData();
+
 //=====================================================
 
 void loop() {
@@ -47,14 +53,14 @@ void loop() {
     parseData();  
     SendBumpData();
     
-    //SendRecievedData(); //uncomment this (and make the neccicary changes to the Rpi code) to have the arduino send the Rpi back what it sent. Viewing the message the
+//    SendRecievedData(); //uncomment this (and make the neccicary changes to the Rpi code) to have the arduino send the Rpi back what it sent. Viewing the message the
                           //Rpi sends the arduino is important to make sure the Rpi isnt sending garbage
     newData = false;
     
   }
 
   
- // printBumpData(); //for testing the arduino code with the bump sensors on its own, comment this in to test the 
+//  printBumpData(); //for testing the arduino code with the bump sensors on its own, comment this in to test the 
                    //bump sensors without doing any communication with the RPI
   
 CommandMotors();
@@ -128,19 +134,18 @@ void SendBumpData(){
   a=digitalRead(5);
   b=digitalRead(7);
   c=digitalRead(8);
-  
 
-  Serial.print(x);
-  Serial.print(',');
-  Serial.print(y);
-  Serial.print(',');
-  Serial.print(z);
-  Serial.print(',');
-  Serial.print(a);
-  Serial.print(',');
-  Serial.print(b);
-  Serial.print(',');
-  Serial.println(c);
+  bumpSensors[0] = x;
+  bumpSensors[1] = y;
+  bumpSensors[2] = z;
+  bumpSensors[3] = a;
+  bumpSensors[4] = b;
+  bumpSensors[5] = c;
+  
+  for (int i = 0; i < 6; i++) {
+      Serial.print(bumpSensors[i]);
+    }
+    Serial.println();
 }
 
 //============================================
@@ -182,17 +187,16 @@ void printBumpData(){
   c=digitalRead(8);
   
 
-  //Serial.print(receivedChars);
-  Serial.print(x);
-  Serial.print(',');
-  Serial.print(y);
-  Serial.print(',');
-  Serial.print(z);
-  Serial.print(',');
-  Serial.print(a);
-  Serial.print(',');
-  Serial.print(b);
-  Serial.print(',');
-  Serial.println(c);
-  delay(1000);
+ bumpSensors[0] = x;
+  bumpSensors[1] = y;
+  bumpSensors[2] = z;
+  bumpSensors[3] = a;
+  bumpSensors[4] = b;
+  bumpSensors[5] = c;
+  
+  for (int i = 0; i < 6; i++) {
+      Serial.print(bumpSensors[i]);
+    }
+    Serial.println();
+  delay(100);
 }
